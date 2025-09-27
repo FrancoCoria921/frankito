@@ -11,8 +11,7 @@ console.log("Hello World");
 let app = express();
 
 // ----------------------------------------------------------------------
-// MIDDLEWARE DE REGISTRO (LOGGER)
-// Desafío: Implementa un Middleware de registro de peticiones a nivel raíz
+// MIDDLEWARE DE REGISTRO (LOGGER) - Se ejecuta para todas las peticiones
 // ----------------------------------------------------------------------
 app.use(function(req, res, next) {
     // Formato: method path - ip
@@ -31,15 +30,23 @@ app.use('/public', express.static(absolutePathToPublic));
 // RUTAS
 // ----------------------------------------------------------------------
 
-// Desafío: Encadenando Middlewares para crear un servidor horario
-// Ruta GET para /now
+// Desafío: Obtén la entrada de parámetros de ruta del cliente (Echo Server)
+app.get('/:word/echo', function(req, res) {
+    const word = req.params.word;
+    res.json({
+        echo: word
+    });
+});
+
+
+// Desafío: Encadenando Middlewares para crear un servidor horario (/now)
 app.get('/now', 
-    // 1. FUNCIÓN MIDDLEWARE: Añade la hora actual a req.time
+    // 1. MIDDLEWARE: Añade la hora actual a req.time
     function(req, res, next) {
         req.time = new Date().toString();
         next();
     }, 
-    // 2. FUNCIÓN HANDLER FINAL: Responde con {time: req.time}
+    // 2. HANDLER FINAL: Responde con {time: req.time}
     function(req, res) {
         res.json({
             time: req.time
@@ -52,7 +59,7 @@ app.get('/now',
 app.get('/json', function(req, res) {
   let message = "Hello json";
   
-  // Accede a process.env.MESSAGE_STYLE y aplica la lógica
+  // Lógica condicional basada en la variable de entorno
   if (process.env.MESSAGE_STYLE === 'uppercase') {
     message = message.toUpperCase();
   }
@@ -62,10 +69,8 @@ app.get('/json', function(req, res) {
   });
 });
 
+
 // Desafío: Sirve un archivo HTML (Ruta raíz /)
-// NOTA: Si necesitas que el test de FCC pase el desafío de "Hello Express"
-// temporalmente, usa res.send('Hello Express');
-// Una vez que el test haya pasado, cambia a res.sendFile(...)
 const absolutePathToIndex = __dirname + '/views/index.html'; 
 app.get('/', function(req, res) {
   res.sendFile(absolutePathToIndex);
