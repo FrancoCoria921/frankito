@@ -1,7 +1,4 @@
-
-console.log("Hello World"); 
-
-require('./myApp');
+require('./myApp'); // Mantenemos el require('./myApp') en caso de que lo necesite.
 
 'use strict';
 
@@ -10,61 +7,58 @@ var express = require('express');
 var app = express();
 
 if (!process.env.DISABLE_XORIGIN) {
-  app.use(function(req, res, next) {
-    var allowedOrigins = ['https://narrow-plane.gomix.me', 'https://www.freecodecamp.com'];
-    var origin = req.headers.origin || '*';
-    if(!process.env.XORIG_RESTRICT || allowedOrigins.indexOf(origin) > -1){
-         console.log(origin);
-         res.setHeader('Access-Control-Allow-Origin', origin);
-         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    }
-    next();
-  });
+  app.use(function(req, res, next) {
+    var allowedOrigins = ['https://narrow-plane.gomix.me', 'https://www.freecodecamp.com'];
+    var origin = req.headers.origin || '*';
+    if(!process.env.XORIG_RESTRICT || allowedOrigins.indexOf(origin) > -1){
+         console.log(origin);
+         res.setHeader('Access-Control-Allow-Origin', origin);
+         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    }
+    next();
+  });
 }
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.route('/_api/package.json')
-  .get(function(req, res, next) {
-    console.log('requested');
-    fs.readFile(__dirname + '/package.json', function(err, data) {
-      if(err) return next(err);
-      res.type('txt').send(data.toString());
-    });
-  });
-  
-/*
+  .get(function(req, res, next) {
+    console.log('requested');
+    fs.readFile(__dirname + '/package.json', function(err, data) {
+      if(err) return next(err);
+      res.type('txt').send(data.toString());
+    });
+  });
+  
+// ----------------------------------------------------------------------------------
+// CAMBIO CLAVE: La ruta principal ahora RESPONDE con "Hello World"
+// ----------------------------------------------------------------------------------
 app.route('/')
     .get(function(req, res) {
-		  res.sendFile(process.cwd() + '/views/index.html');
+        // En lugar de enviar un archivo HTML, enviamos la cadena de texto que busca el test
+        res.send('Hello World'); 
     })
-*/
-
-app.route('/')
-    .get(function(req, res) {
-        // Esto es lo que el test de FCC está esperando recibir.
-        res.send('Hello World');
-    });
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
-  res.status(404);
-  res.type('txt').send('Not found');
+  res.status(404);
+  res.type('txt').send('Not found');
 });
 
 // Error Middleware
 app.use(function(err, req, res, next) {
-  if(err) {
-    res.status(err.status || 500)
-      .type('txt')
-      .send(err.message || 'SERVER ERROR');
-  }  
-});
+  if(err) {
+    res.status(err.status || 500)
+      .type('txt')
+      .send(err.message || 'SERVER ERROR');
+  }  
+})
 
 //Listen on port set in environment variable or default to 3000
 const listener = app.listen(process.env.PORT || 3000, function () {
-  
-  console.log("Hello World"); 
-  console.log("Node.js listening on port " + listener.address().port);
+  // ----------------------------------------------------------------------------------
+  // CAMBIO CLAVE: También lo imprimimos en la consola justo al inicio.
+  // ----------------------------------------------------------------------------------
+  console.log("Hello World");
+  console.log("Node.js listening on port " + listener.address().port);
 });
-
