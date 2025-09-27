@@ -5,37 +5,25 @@ require('dotenv').config();
 
 let express = require('express');
 
-// ----------------------------------------------------------------------
-// 1. REQUERIR BODY-PARSER
-// Desafío: Usa body-parser para analizar las peticiones POST
-// ----------------------------------------------------------------------
-let bodyParser = require('body-parser');
+// Requerir body-parser para analizar peticiones POST
+let bodyParser = require('body-parser'); 
 
 // Desafío: "Hello World" en la consola
 console.log("Hello World"); 
 
 let app = express();
 
-// ----------------------------------------------------------------------
-// 2. MIDDLEWARE DE BODY-PARSER (Debe ir ANTES de cualquier ruta POST)
+// MIDDLEWARE DE BODY-PARSER (Debe ir ANTES de cualquier ruta POST)
 // Analiza el cuerpo de las peticiones codificadas por URL (como formularios HTML)
-// ----------------------------------------------------------------------
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// ----------------------------------------------------------------------
 // MIDDLEWARE DE REGISTRO (LOGGER)
-// Desafío: Implementa un Middleware de registro de peticiones a nivel raíz
-// ----------------------------------------------------------------------
 app.use(function(req, res, next) {
-    // Formato: method path - ip
     console.log(`${req.method} ${req.path} - ${req.ip}`);
     next();
 });
 
-// ----------------------------------------------------------------------
 // MIDDLEWARE PARA RECURSOS ESTÁTICOS
-// Desafío: Sirve recursos estáticos (/public)
-// ----------------------------------------------------------------------
 const absolutePathToPublic = __dirname + '/public';
 app.use('/public', express.static(absolutePathToPublic));
 
@@ -43,7 +31,7 @@ app.use('/public', express.static(absolutePathToPublic));
 // RUTAS
 // ----------------------------------------------------------------------
 
-// Desafío: Obtén la entrada de parámetros de ruta del cliente (Echo Server)
+// Ruta con Parámetros de Ruta (Echo Server)
 app.get('/:word/echo', function(req, res) {
     const word = req.params.word;
     res.json({
@@ -52,14 +40,12 @@ app.get('/:word/echo', function(req, res) {
 });
 
 
-// Desafío: Encadenando Middlewares para crear un servidor horario (/now)
+// Ruta con Middleware Encadenado (/now)
 app.get('/now', 
-    // MIDDLEWARE: Añade la hora actual a req.time
     function(req, res, next) {
         req.time = new Date().toString();
         next();
     }, 
-    // HANDLER FINAL: Responde con {time: req.time}
     function(req, res) {
         res.json({
             time: req.time
@@ -68,26 +54,37 @@ app.get('/now',
 );
 
 
-// Desafío: Obtén la entrada de parámetros de consulta del cliente
-// Se usa app.route('/name').get(...) para encadenar la lógica del nombre
-app.route('/name').get(function(req, res) {
-    // Parámetros de consulta (Query)
-    const firstName = req.query.first;
-    const lastName = req.query.last;
-    
-    const fullName = `${firstName} ${lastName}`;
-    
-    res.json({
-        name: fullName
+// Ruta /name (Maneja GET con req.query y POST con req.body)
+// Desafío completado: Obtén datos de las peticiones POST
+app.route('/name')
+    .get(function(req, res) {
+        // Maneja GET (Query String)
+        const firstName = req.query.first;
+        const lastName = req.query.last;
+        const fullName = `${firstName} ${lastName}`;
+        
+        res.json({
+            name: fullName
+        });
+    })
+    .post(function(req, res) {
+        // Maneja POST (Body de la petición)
+        // Los datos están en req.body gracias al middleware body-parser
+        const firstName = req.body.first;
+        const lastName = req.body.last;
+        
+        const fullName = `${firstName} ${lastName}`;
+        
+        res.json({
+            name: fullName
+        });
     });
-});
 
 
-// Desafío: Sirve JSON en una ruta específica (/json) y usa .env
+// Ruta /json (Usa .env para mayúsculas)
 app.get('/json', function(req, res) {
   let message = "Hello json";
   
-  // Lógica condicional basada en la variable de entorno
   if (process.env.MESSAGE_STYLE === 'uppercase') {
     message = message.toUpperCase();
   }
@@ -98,7 +95,7 @@ app.get('/json', function(req, res) {
 });
 
 
-// Desafío: Sirve un archivo HTML (Ruta raíz /)
+// Ruta Raíz (Sirve HTML)
 const absolutePathToIndex = __dirname + '/views/index.html'; 
 app.get('/', function(req, res) {
   res.sendFile(absolutePathToIndex);
