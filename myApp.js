@@ -1,18 +1,23 @@
 // myApp.js
 let express = require('express');
 
-// La línea console.log("Hello World"); del desafío anterior se queda aquí.
 console.log("Hello World"); 
 
 let app = express();
 
 // ----------------------------------------------------------------------
-// AÑADE ESTE CÓDIGO AQUÍ:
-// Define una ruta GET para la URL raíz (PATH: '/')
+// MODIFICACIÓN DE RUTA: Sirve el archivo index.html
+// ----------------------------------------------------------------------
+
+// __dirname es la variable global de Node que contiene la ruta absoluta 
+// del directorio donde se encuentra myApp.js
+const absolutePath = __dirname + '/views/index.html'; 
+
 app.get('/', function(req, res) {
-  // El método res.send() envía la cadena como respuesta HTTP
-  res.send('Hello Express');
+  // res.sendFile() requiere la ruta absoluta
+  res.sendFile(absolutePath);
 });
+
 // ----------------------------------------------------------------------
 
 module.exports = app;
