@@ -1,4 +1,5 @@
 // myApp.js
+require('dotenv').config();
 let express = require('express');
 
 console.log("Hello World"); 
