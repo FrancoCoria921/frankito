@@ -39,12 +39,12 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
 */
-// CÓDIGO NUEVO EN server.js (REEMPLAZA el bloque de app.route('/'))
+
 app.route('/')
     .get(function(req, res) {
-        // El test de FCC necesita que el servidor RESPONDA con esta cadena.
+        // Esto es lo que el test de FCC está esperando recibir.
         res.send('Hello World');
-    })
+    });
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
