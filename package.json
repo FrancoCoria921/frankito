@@ -1,5 +1,6 @@
 {
 	"name": "fcc-learn-npm-package-json",
+	"version": "1.0.0",
 	"description": "Un proyecto base de Node.js y Express para los desafíos de FreeCodeCamp.",
  	"author": "Franco Coria",
 	"keywords": [
