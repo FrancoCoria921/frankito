@@ -11,7 +11,8 @@ console.log("Hello World");
 let app = express();
 
 // ----------------------------------------------------------------------
-// MIDDLEWARE DE REGISTRO (LOGGER) - Se ejecuta para todas las peticiones
+// MIDDLEWARE DE REGISTRO (LOGGER)
+// Desafío: Implementa un Middleware de registro de peticiones a nivel raíz
 // ----------------------------------------------------------------------
 app.use(function(req, res, next) {
     // Formato: method path - ip
@@ -53,6 +54,22 @@ app.get('/now',
         });
     }
 );
+
+
+// Desafío: Obtén la entrada de parámetros de consulta del cliente
+// Se usa app.route('/name').get(...) para prepararnos para el POST
+app.route('/name').get(function(req, res) {
+    // 1. Acceder a los parámetros 'first' y 'last' de la cadena de consulta (req.query)
+    const firstName = req.query.first;
+    const lastName = req.query.last;
+    
+    // 2. Formatear y enviar la respuesta { name: 'firstname lastname' }
+    const fullName = `${firstName} ${lastName}`;
+    
+    res.json({
+        name: fullName
+    });
+});
 
 
 // Desafío: Sirve JSON en una ruta específica (/json) y usa .env
