@@ -1,4 +1,4 @@
-require('./myApp'); 
+console.log("Hello World"); 
 
 
 'use strict';
