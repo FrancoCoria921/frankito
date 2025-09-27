@@ -31,9 +31,17 @@ app.route('/_api/package.json')
     });
   });
   
+/*
+app.route('/')
+    .get(function(req, res) {
+		  res.sendFile(process.cwd() + '/views/index.html');
+    })
+*/
+// CÓDIGO NUEVO EN server.js (REEMPLAZA el bloque de app.route('/'))
 app.route('/')
     .get(function(req, res) {
-		  res.sendFile(process.cwd() + '/views/index.html');
+        // El test de FCC necesita que el servidor RESPONDA con esta cadena.
+        res.send('Hello World');
     })
 
 // Respond not found to all the wrong routes
