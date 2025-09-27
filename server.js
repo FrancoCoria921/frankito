@@ -1,4 +1,6 @@
 
+console.log("Hello World"); 
+
 require('./myApp');
 
 'use strict';
