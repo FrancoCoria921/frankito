@@ -5,10 +5,22 @@ require('dotenv').config();
 
 let express = require('express');
 
+// ----------------------------------------------------------------------
+// 1. REQUERIR BODY-PARSER
+// Desafío: Usa body-parser para analizar las peticiones POST
+// ----------------------------------------------------------------------
+let bodyParser = require('body-parser');
+
 // Desafío: "Hello World" en la consola
 console.log("Hello World"); 
 
 let app = express();
+
+// ----------------------------------------------------------------------
+// 2. MIDDLEWARE DE BODY-PARSER (Debe ir ANTES de cualquier ruta POST)
+// Analiza el cuerpo de las peticiones codificadas por URL (como formularios HTML)
+// ----------------------------------------------------------------------
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // ----------------------------------------------------------------------
 // MIDDLEWARE DE REGISTRO (LOGGER)
@@ -42,12 +54,12 @@ app.get('/:word/echo', function(req, res) {
 
 // Desafío: Encadenando Middlewares para crear un servidor horario (/now)
 app.get('/now', 
-    // 1. MIDDLEWARE: Añade la hora actual a req.time
+    // MIDDLEWARE: Añade la hora actual a req.time
     function(req, res, next) {
         req.time = new Date().toString();
         next();
     }, 
-    // 2. HANDLER FINAL: Responde con {time: req.time}
+    // HANDLER FINAL: Responde con {time: req.time}
     function(req, res) {
         res.json({
             time: req.time
@@ -57,13 +69,12 @@ app.get('/now',
 
 
 // Desafío: Obtén la entrada de parámetros de consulta del cliente
-// Se usa app.route('/name').get(...) para prepararnos para el POST
+// Se usa app.route('/name').get(...) para encadenar la lógica del nombre
 app.route('/name').get(function(req, res) {
-    // 1. Acceder a los parámetros 'first' y 'last' de la cadena de consulta (req.query)
+    // Parámetros de consulta (Query)
     const firstName = req.query.first;
     const lastName = req.query.last;
     
-    // 2. Formatear y enviar la respuesta { name: 'firstname lastname' }
     const fullName = `${firstName} ${lastName}`;
     
     res.json({
