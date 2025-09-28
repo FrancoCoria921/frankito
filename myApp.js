@@ -71,18 +71,24 @@ const findPeopleByName = (personName, done) => {
 
 // Solución para: Usar model.findOne() para buscar por comida favorita
 const findOneByFood = (food, done) => {
-  // Model.findOne() busca el primer documento donde 'favoriteFoods' contenga el valor 'food'.
   Person.findOne({ favoriteFoods: food }, (err, personFound) => {
     if (err) {
       return done(err);
     }
-    // personFound es un solo documento (un objeto Persona) o null si no se encuentra nada.
     done(null, personFound);
   });
 };
 
+// Solución para: Usar model.findById() para buscar por _id
 const findPersonById = (personId, done) => {
-  done(null /*, data*/);
+  // Model.findById() es una abreviatura de Model.findOne({ _id: personId })
+  Person.findById(personId, (err, personFound) => {
+    if (err) {
+      return done(err);
+    }
+    // personFound es un solo documento que coincide con el ID
+    done(null, personFound);
+  });
 };
 
 const findEditThenSave = (personId, done) => {
