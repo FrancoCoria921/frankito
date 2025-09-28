@@ -1,7 +1,34 @@
+// myApp.js
+
 require('dotenv').config();
 
+// Agregamos el require de mongoose
+let mongoose = require('mongoose');
 
-let Person;
+// **El código exacto de CONEXIÓN que debe detectar FCC:**
+mongoose.connect(process.env.MONGO_URI, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+});
+
+// ----------------------------------------------------------------------
+// DEFINICIÓN DE ESQUEMA Y MODELO (NECESARIO PARA EL CRUD)
+// ----------------------------------------------------------------------
+const personSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  age: Number,
+  favoriteFoods: [String]
+});
+
+let Person = mongoose.model('Person', personSchema);
+
+
+// ----------------------------------------------------------------------
+// FUNCIONES CRUD (COMIENZA EL DESAFÍO)
+// ----------------------------------------------------------------------
 
 const createAndSavePerson = (done) => {
   done(null /*, data*/);
@@ -53,7 +80,8 @@ const queryChain = (done) => {
 
 /** **Well Done !!**
 /* You completed these challenges, let's go celebrate !
- */
+ * No modifiques el código debajo de esta línea
+ */
 
 //----- **DO NOT EDIT BELOW THIS LINE** ----------------------------------
 
