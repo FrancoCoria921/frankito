@@ -137,20 +137,26 @@ const removeById = (personId, done) => {
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
 
-  // Documento de consulta para eliminar todas las personas con ese nombre
   Person.remove({ name: nameToRemove }, (err, data) => {
     if (err) {
       return done(err);
     }
-    // 'data' contiene el resultado de la operación y el número de elementos afectados.
     done(null, data);
   });
 };
 
+// Solución para: Encadenamiento de Consultas (Query Chain)
 const queryChain = (done) => {
   const foodToSearch = "burrito";
 
-  done(null /*, data*/);
+  Person.find({ favoriteFoods: foodToSearch }) // Buscar la comida
+    .sort({ name: 1 })                         // Ordenar por nombre (1: ascendente)
+    .limit(1)                                  // Limitar a un resultado
+    .select({ age: 0 })                        // Excluir el campo 'age'
+    .exec((err, data) => {                     // Ejecutar la consulta
+      if (err) return done(err);
+      done(null, data);
+    });
 };
 
 /** **Well Done !!**
@@ -168,4 +174,6 @@ exports.findPersonById = findPersonById;
 exports.findEditThenSave = findEditThenSave;
 exports.findAndUpdate = findAndUpdate;
 exports.createManyPeople = createManyPeople;
-exports.
+exports.removeById = removeById;
+exports.removeManyPeople = removeManyPeople;
+exports.queryChain = queryChain;
