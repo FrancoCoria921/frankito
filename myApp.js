@@ -2,27 +2,33 @@
 
 require('dotenv').config();
 
-// Agregamos el require de mongoose
+// Incluimos Mongoose
 let mongoose = require('mongoose');
 
-// **El código exacto de CONEXIÓN que debe detectar FCC:**
+// El código de CONEXIÓN que detecta FCC:
 mongoose.connect(process.env.MONGO_URI, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 });
 
 // ----------------------------------------------------------------------
-// DEFINICIÓN DE ESQUEMA Y MODELO (NECESARIO PARA EL CRUD)
+// PASO 1: CREAR ESQUEMA Y MODELO
 // ----------------------------------------------------------------------
+
+// 1. Crear el Esquema (Schema) de Persona
 const personSchema = new mongoose.Schema({
+  // Campo 'name' obligatorio de tipo String
   name: {
     type: String,
     required: true
   },
+  // Campo 'age' de tipo Number
   age: Number,
+  // Campo 'favoriteFoods' de tipo Array de Strings
   favoriteFoods: [String]
 });
 
+// 2. Crear el Modelo (Model) a partir del esquema
 let Person = mongoose.model('Person', personSchema);
 
 
