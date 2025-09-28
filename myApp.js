@@ -7,13 +7,12 @@ let express = require('express');
 let bodyParser = require('body-parser'); 
 let mongoose = require('mongoose'); 
 
-// ----------------------------------------------------------------------
-// CONEXIÓN A MONGODB (Se reinsertan las opciones requeridas por el test de FCC)
-// ----------------------------------------------------------------------
-mongoose.connect(process.env.MONGO_URI, { 
-    useNewUrlParser: true,      // Requerida por FCC para el test
-    useUnifiedTopology: true    // Requerida por FCC para el test
-});
+/** # MONGOOSE SETUP #
+/*  ================== */
+
+/** 1) Install & Set up mongoose */
+// Usamos la sintaxis limpia para la conexión, como sugiere la solución de FCC
+mongoose.connect(process.env.MONGO_URI);
 
 
 // Desafío: "Hello World" en la consola
@@ -104,5 +103,8 @@ app.get('/', function(req, res) {
   res.sendFile(absolutePathToIndex);
 });
 
+// ----------------------------------------------------------------------
+// Mongoose Models (Se añadirán aquí)
+// ----------------------------------------------------------------------
 
 module.exports = app;
