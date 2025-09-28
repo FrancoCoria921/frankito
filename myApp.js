@@ -8,13 +8,11 @@ let bodyParser = require('body-parser');
 let mongoose = require('mongoose'); 
 
 // ----------------------------------------------------------------------
-// CONEXIÓN A MONGODB (MODIFICACIÓN CLAVE: Se quitan opciones obsoletas)
-// Esto ayuda a que Mongoose v5 funcione mejor en entornos Node.js modernos.
+// CONEXIÓN A MONGODB (Se reinsertan las opciones requeridas por el test de FCC)
 // ----------------------------------------------------------------------
 mongoose.connect(process.env.MONGO_URI, { 
-    // Se quitan las opciones obsoletas para simplificar la conexión
-    // useNewUrlParser: true, 
-    // useUnifiedTopology: true 
+    useNewUrlParser: true,      // Requerida por FCC para el test
+    useUnifiedTopology: true    // Requerida por FCC para el test
 });
 
 
