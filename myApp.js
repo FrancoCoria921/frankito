@@ -5,20 +5,24 @@ require('dotenv').config();
 
 let express = require('express');
 let bodyParser = require('body-parser'); 
-let mongoose = require('mongoose'); 
+let mongoose = require('mongoose'); // <-- Cumple con "require mongoose"
 
 /** # MONGOOSE SETUP #
 /*  ================== */
 
 /** 1) Install & Set up mongoose */
-// Usamos la sintaxis limpia para la conexión, como sugiere la solución de FCC
-mongoose.connect(process.env.MONGO_URI);
+// <-- Cumple con la sintaxis exacta de conexión (incluyendo las opciones)
+mongoose.connect(process.env.MONGO_URI, { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+});
 
 
 // Desafío: "Hello World" en la consola
 console.log("Hello World"); 
 
 let app = express();
+// ... (El resto del código de rutas y middlewares sigue aquí)
 
 // MIDDLEWARE DE BODY-PARSER
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,75 +40,43 @@ app.use('/public', express.static(absolutePathToPublic));
 // ----------------------------------------------------------------------
 // RUTAS
 // ----------------------------------------------------------------------
-
-// Ruta con Parámetros de Ruta (Echo Server)
+// ... (Todas tus rutas)
 app.get('/:word/echo', function(req, res) {
     const word = req.params.word;
-    res.json({
-        echo: word
-    });
+    res.json({ echo: word });
 });
 
-
-// Ruta con Middleware Encadenado (/now)
 app.get('/now', 
     function(req, res, next) {
         req.time = new Date().toString();
         next();
     }, 
     function(req, res) {
-        res.json({
-            time: req.time
-        });
+        res.json({ time: req.time });
     }
 );
 
-
-// Ruta /name (Maneja GET con req.query y POST con req.body)
 app.route('/name')
     .get(function(req, res) {
-        const firstName = req.query.first;
-        const lastName = req.query.last;
-        const fullName = `${firstName} ${lastName}`;
-        
-        res.json({
-            name: fullName
-        });
+        const fullName = `${req.query.first} ${req.query.last}`;
+        res.json({ name: fullName });
     })
     .post(function(req, res) {
-        const firstName = req.body.first;
-        const lastName = req.body.last;
-        
-        const fullName = `${firstName} ${lastName}`;
-        
-        res.json({
-            name: fullName
-        });
+        const fullName = `${req.body.first} ${req.body.last}`;
+        res.json({ name: fullName });
     });
 
-
-// Ruta /json (Usa .env para mayúsculas)
 app.get('/json', function(req, res) {
   let message = "Hello json";
-  
   if (process.env.MESSAGE_STYLE === 'uppercase') {
     message = message.toUpperCase();
   }
-  
-  res.json({
-    "message": message
-  });
+  res.json({ "message": message });
 });
 
-
-// Ruta Raíz (Sirve HTML)
 const absolutePathToIndex = __dirname + '/views/index.html'; 
 app.get('/', function(req, res) {
   res.sendFile(absolutePathToIndex);
 });
-
-// ----------------------------------------------------------------------
-// Mongoose Models (Se añadirán aquí)
-// ----------------------------------------------------------------------
 
 module.exports = app;
