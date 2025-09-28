@@ -149,11 +149,16 @@ const removeManyPeople = (done) => {
 const queryChain = (done) => {
   const foodToSearch = "burrito";
 
-  Person.find({ favoriteFoods: foodToSearch }) // Buscar la comida
-    .sort({ name: 1 })                         // Ordenar por nombre (1: ascendente)
-    .limit(1)                                  // Limitar a un resultado
-    .select({ age: 0 })                        // Excluir el campo 'age'
-    .exec((err, data) => {                     // Ejecutar la consulta
+  // 1. .find() la comida especificada
+  Person.find({ favoriteFoods: foodToSearch }) 
+    // 2. .sort() por nombre ascendente (1)
+    .sort({ name: 1 })                         
+    // 3. .limit() a 2 documentos
+    .limit(2)                                  
+    // 4. .select() para ocultar el campo 'age' (0)
+    .select({ age: 0 })                        
+    // 5. .exec() para ejecutar la consulta y pasar el callback
+    .exec((err, data) => {                     
       if (err) return done(err);
       done(null, data);
     });
