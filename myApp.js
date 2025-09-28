@@ -35,14 +35,12 @@ let Person = mongoose.model('Person', personSchema);
 
 // Solución para: Crear y Guardar un Documento
 const createAndSavePerson = (done) => {
-  // 1. Crear una instancia de documento
   const newPerson = new Person({
     name: 'Jhonny Appleseed',
     age: 30,
     favoriteFoods: ['apples', 'pie', 'cider']
   });
 
-  // 2. Llamar al método .save() en la instancia
   newPerson.save((err, data) => {
     if (err) {
       return done(err); 
@@ -51,8 +49,15 @@ const createAndSavePerson = (done) => {
   });
 };
 
+// Solución para: Crear muchos registros con model.create()
 const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+  // Model.create() recibe un arreglo de objetos y un callback.
+  Person.create(arrayOfPeople, (err, people) => {
+    if (err) {
+      return done(err);
+    }
+    done(null, people);
+  });
 };
 
 const findPeopleByName = (personName, done) => {
