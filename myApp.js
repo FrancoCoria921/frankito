@@ -5,26 +5,23 @@ require('dotenv').config();
 // Incluimos Mongoose
 let mongoose = require('mongoose');
 
-// El código de CONEXIÓN que detecta FCC:
+// **Código de CONEXIÓN detectado por FCC:**
 mongoose.connect(process.env.MONGO_URI, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 });
 
 // ----------------------------------------------------------------------
-// PASO 1: CREAR ESQUEMA Y MODELO
+// DEFINICIÓN DE ESQUEMA Y MODELO
 // ----------------------------------------------------------------------
 
 // 1. Crear el Esquema (Schema) de Persona
 const personSchema = new mongoose.Schema({
-  // Campo 'name' obligatorio de tipo String
   name: {
     type: String,
     required: true
   },
-  // Campo 'age' de tipo Number
   age: Number,
-  // Campo 'favoriteFoods' de tipo Array de Strings
   favoriteFoods: [String]
 });
 
@@ -33,11 +30,25 @@ let Person = mongoose.model('Person', personSchema);
 
 
 // ----------------------------------------------------------------------
-// FUNCIONES CRUD (COMIENZA EL DESAFÍO)
+// FUNCIONES CRUD
 // ----------------------------------------------------------------------
 
+// Solución para: Crear y Guardar un Documento
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  // 1. Crear una instancia de documento
+  const newPerson = new Person({
+    name: 'Jhonny Appleseed',
+    age: 30,
+    favoriteFoods: ['apples', 'pie', 'cider']
+  });
+
+  // 2. Llamar al método .save() en la instancia
+  newPerson.save((err, data) => {
+    if (err) {
+      return done(err); 
+    }
+    done(null, data); 
+  });
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
