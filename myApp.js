@@ -111,26 +111,28 @@ const findEditThenSave = (personId, done) => {
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
 
-  // 1. Documento de consulta: {name: personName}
   const query = { name: personName };
-  
-  // 2. Documento de actualización: {$set: {age: 20}}
   const update = { age: ageToSet }; 
-  
-  // 3. Opciones: { new: true } asegura que se devuelva el documento actualizado
   const options = { new: true };
 
   Person.findOneAndUpdate(query, update, options, (err, updatedPerson) => {
     if (err) {
       return done(err);
     }
-    // updatedPerson es el documento después de la actualización
     done(null, updatedPerson);
   });
 };
 
+// Solución para: Eliminar un documento usando el método model.findByIdAndRemove
 const removeById = (personId, done) => {
-  done(null /*, data*/);
+  // Model.findByIdAndRemove() busca por ID, elimina el documento y lo devuelve.
+  Person.findByIdAndRemove(personId, (err, removedDoc) => {
+    if (err) {
+      return done(err);
+    }
+    // removedDoc es el documento que fue eliminado
+    done(null, removedDoc); 
+  });
 };
 
 const removeManyPeople = (done) => {
@@ -159,4 +161,7 @@ exports.findOneByFood = findOneByFood;
 exports.findPersonById = findPersonById;
 exports.findEditThenSave = findEditThenSave;
 exports.findAndUpdate = findAndUpdate;
-exports
+exports.createManyPeople = createManyPeople;
+exports.removeById = removeById;
+exports.removeManyPeople = removeManyPeople;
+exports.queryChain = queryChain;
