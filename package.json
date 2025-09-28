@@ -1,16 +1,29 @@
 {
-  "name": "fcc-learn-node-with-express",
-  "version": "0.1.0",
-  "dependencies": {
-    "mongoose": "^5.11.15",
-    "body-parser": "^1.15.2",
-    "cookie-parser": "^1.4.3",
-    "dotenv": "^16.0.1",
-    "express": "^4.14.0",
-    "fcc-express-bground": "https://github.com/freeCodeCamp/fcc-express-bground-pkg.git"
-  },
+  "name": "fcc-mongo-mongoose-challenges",
+  "version": "0.0.1",
+  "description": "A boilerplate project",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
-  }
+  },
+  "dependencies": {
+    "express": "^4.12.4",     
+    "body-parser": "^1.15.2",
+    "mongodb": "^3.0.0",        
+    "mongoose": "^5.6.5",     <-- CAMBIO CLAVE
+    "dotenv": "^8.2.0"        <-- Lo mantenemos porque es necesario
+  },
+  "engines": {
+    "node": "4.4.5"           <-- Esto informa al sistema de pruebas
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://hyperdev.com/#!/project/welcome-project"
+  },
+  "keywords": [
+    "node",
+    "hyperdev",
+    "express"
+  ],
+  "license": "MIT"
 }
