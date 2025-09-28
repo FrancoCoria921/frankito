@@ -61,18 +61,24 @@ const createManyPeople = (arrayOfPeople, done) => {
 
 // Solución para: Usar model.find() para buscar personas por nombre
 const findPeopleByName = (personName, done) => {
-  // Busca todos los documentos donde el campo 'name' coincida con personName.
   Person.find({ name: personName }, (err, peopleFound) => {
     if (err) {
       return done(err);
     }
-    // peopleFound es un arreglo de coincidencias
     done(null, peopleFound);
   });
 };
 
+// Solución para: Usar model.findOne() para buscar por comida favorita
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  // Model.findOne() busca el primer documento donde 'favoriteFoods' contenga el valor 'food'.
+  Person.findOne({ favoriteFoods: food }, (err, personFound) => {
+    if (err) {
+      return done(err);
+    }
+    // personFound es un solo documento (un objeto Persona) o null si no se encuentra nada.
+    done(null, personFound);
+  });
 };
 
 const findPersonById = (personId, done) => {
