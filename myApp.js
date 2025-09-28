@@ -8,11 +8,13 @@ let bodyParser = require('body-parser');
 let mongoose = require('mongoose'); 
 
 // ----------------------------------------------------------------------
-// CONEXIÓN A MONGODB (Se conecta usando la variable MONGO_URI)
+// CONEXIÓN A MONGODB (MODIFICACIÓN CLAVE: Se quitan opciones obsoletas)
+// Esto ayuda a que Mongoose v5 funcione mejor en entornos Node.js modernos.
 // ----------------------------------------------------------------------
 mongoose.connect(process.env.MONGO_URI, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
+    // Se quitan las opciones obsoletas para simplificar la conexión
+    // useNewUrlParser: true, 
+    // useUnifiedTopology: true 
 });
 
 
