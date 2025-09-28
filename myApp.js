@@ -93,17 +93,13 @@ const findPersonById = (personId, done) => {
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
 
-  // 1. Buscar a la persona por _id
   Person.findById(personId, (err, person) => {
     if (err) return done(err);
     
-    // Si no se encuentra la persona, terminar.
     if (!person) return done(new Error('Persona no encontrada'));
 
-    // 2. Editar el documento: añadir "hamburger" a favoriteFoods
     person.favoriteFoods.push(foodToAdd);
 
-    // 3. Guardar el documento actualizado
     person.save((err, updatedPerson) => {
       if (err) return done(err);
       done(null, updatedPerson);
@@ -111,10 +107,26 @@ const findEditThenSave = (personId, done) => {
   });
 };
 
+// Solución para: Realizar nuevas actualizaciones en un documento usando model.findOneAndUpdate()
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
 
-  done(null /*, data*/);
+  // 1. Documento de consulta: {name: personName}
+  const query = { name: personName };
+  
+  // 2. Documento de actualización: {$set: {age: 20}}
+  const update = { age: ageToSet }; 
+  
+  // 3. Opciones: { new: true } asegura que se devuelva el documento actualizado
+  const options = { new: true };
+
+  Person.findOneAndUpdate(query, update, options, (err, updatedPerson) => {
+    if (err) {
+      return done(err);
+    }
+    // updatedPerson es el documento después de la actualización
+    done(null, updatedPerson);
+  });
 };
 
 const removeById = (personId, done) => {
@@ -147,7 +159,4 @@ exports.findOneByFood = findOneByFood;
 exports.findPersonById = findPersonById;
 exports.findEditThenSave = findEditThenSave;
 exports.findAndUpdate = findAndUpdate;
-exports.createManyPeople = createManyPeople;
-exports.removeById = removeById;
-exports.removeManyPeople = removeManyPeople;
-exports.queryChain = queryChain;
+exports
