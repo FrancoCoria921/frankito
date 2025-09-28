@@ -1,30 +1,25 @@
-// myApp.js (Inicio del archivo)
+// myApp.js
 
 // Carga las variables de entorno
 require('dotenv').config(); 
 
 let express = require('express');
 let bodyParser = require('body-parser'); 
-
-// 1. REQUERIR MONGOOSE
 let mongoose = require('mongoose'); 
 
 // ----------------------------------------------------------------------
-// 2. CONEXIÓN (Sintaxis exacta requerida por la prueba)
+// CONEXIÓN A MONGODB (Se conecta usando la variable MONGO_URI)
 // ----------------------------------------------------------------------
 mongoose.connect(process.env.MONGO_URI, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 });
-// ----------------------------------------------------------------------
+
 
 // Desafío: "Hello World" en la consola
 console.log("Hello World"); 
 
 let app = express();
-
-// ... el resto de tu código de middlewares y rutas ...
-// (Todo lo demás permanece igual que la última versión funcional)
 
 // MIDDLEWARE DE BODY-PARSER
 app.use(bodyParser.urlencoded({ extended: false }));
