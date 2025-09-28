@@ -1,25 +1,30 @@
-// myApp.js
+// myApp.js (Inicio del archivo)
 
-// Carga las variables de entorno desde el archivo .env
+// Carga las variables de entorno
 require('dotenv').config(); 
 
 let express = require('express');
 let bodyParser = require('body-parser'); 
-let mongoose = require('mongoose'); // Requerir Mongoose
+
+// 1. REQUERIR MONGOOSE
+let mongoose = require('mongoose'); 
 
 // ----------------------------------------------------------------------
-// CONEXIÓN A MONGODB (Sintaxis requerida por la prueba de FCC)
+// 2. CONEXIÓN (Sintaxis exacta requerida por la prueba)
 // ----------------------------------------------------------------------
 mongoose.connect(process.env.MONGO_URI, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 });
-
+// ----------------------------------------------------------------------
 
 // Desafío: "Hello World" en la consola
 console.log("Hello World"); 
 
 let app = express();
+
+// ... el resto de tu código de middlewares y rutas ...
+// (Todo lo demás permanece igual que la última versión funcional)
 
 // MIDDLEWARE DE BODY-PARSER
 app.use(bodyParser.urlencoded({ extended: false }));
