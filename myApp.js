@@ -125,20 +125,26 @@ const findAndUpdate = (personName, done) => {
 
 // Solución para: Eliminar un documento usando el método model.findByIdAndRemove
 const removeById = (personId, done) => {
-  // Model.findByIdAndRemove() busca por ID, elimina el documento y lo devuelve.
   Person.findByIdAndRemove(personId, (err, removedDoc) => {
     if (err) {
       return done(err);
     }
-    // removedDoc es el documento que fue eliminado
     done(null, removedDoc); 
   });
 };
 
+// Solución para: Eliminar muchos documentos con model.remove()
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
 
-  done(null /*, data*/);
+  // Documento de consulta para eliminar todas las personas con ese nombre
+  Person.remove({ name: nameToRemove }, (err, data) => {
+    if (err) {
+      return done(err);
+    }
+    // 'data' contiene el resultado de la operación y el número de elementos afectados.
+    done(null, data);
+  });
 };
 
 const queryChain = (done) => {
@@ -162,6 +168,4 @@ exports.findPersonById = findPersonById;
 exports.findEditThenSave = findEditThenSave;
 exports.findAndUpdate = findAndUpdate;
 exports.createManyPeople = createManyPeople;
-exports.removeById = removeById;
-exports.removeManyPeople = removeManyPeople;
-exports.queryChain = queryChain;
+exports.
