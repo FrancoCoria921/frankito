@@ -51,7 +51,6 @@ const createAndSavePerson = (done) => {
 
 // Solución para: Crear muchos registros con model.create()
 const createManyPeople = (arrayOfPeople, done) => {
-  // Model.create() recibe un arreglo de objetos y un callback.
   Person.create(arrayOfPeople, (err, people) => {
     if (err) {
       return done(err);
@@ -60,8 +59,16 @@ const createManyPeople = (arrayOfPeople, done) => {
   });
 };
 
+// Solución para: Usar model.find() para buscar personas por nombre
 const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+  // Busca todos los documentos donde el campo 'name' coincida con personName.
+  Person.find({ name: personName }, (err, peopleFound) => {
+    if (err) {
+      return done(err);
+    }
+    // peopleFound es un arreglo de coincidencias
+    done(null, peopleFound);
+  });
 };
 
 const findOneByFood = (food, done) => {
