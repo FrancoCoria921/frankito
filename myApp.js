@@ -1,82 +1,70 @@
-// myApp.js
-
-// Carga las variables de entorno
-require('dotenv').config(); 
-
-let express = require('express');
-let bodyParser = require('body-parser'); 
-let mongoose = require('mongoose'); // <-- Cumple con "require mongoose"
-
-/** # MONGOOSE SETUP #
-/*  ================== */
-
-/** 1) Install & Set up mongoose */
-// <-- Cumple con la sintaxis exacta de conexión (incluyendo las opciones)
-mongoose.connect(process.env.MONGO_URI, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
-});
+require('dotenv').config();
 
 
-// Desafío: "Hello World" en la consola
-console.log("Hello World"); 
+let Person;
 
-let app = express();
-// ... (El resto del código de rutas y middlewares sigue aquí)
+const createAndSavePerson = (done) => {
+  done(null /*, data*/);
+};
 
-// MIDDLEWARE DE BODY-PARSER
-app.use(bodyParser.urlencoded({ extended: false }));
+const createManyPeople = (arrayOfPeople, done) => {
+  done(null /*, data*/);
+};
 
-// MIDDLEWARE DE REGISTRO (LOGGER)
-app.use(function(req, res, next) {
-    console.log(`${req.method} ${req.path} - ${req.ip}`);
-    next();
-});
+const findPeopleByName = (personName, done) => {
+  done(null /*, data*/);
+};
 
-// MIDDLEWARE PARA RECURSOS ESTÁTICOS
-const absolutePathToPublic = __dirname + '/public';
-app.use('/public', express.static(absolutePathToPublic));
+const findOneByFood = (food, done) => {
+  done(null /*, data*/);
+};
 
-// ----------------------------------------------------------------------
-// RUTAS
-// ----------------------------------------------------------------------
-// ... (Todas tus rutas)
-app.get('/:word/echo', function(req, res) {
-    const word = req.params.word;
-    res.json({ echo: word });
-});
+const findPersonById = (personId, done) => {
+  done(null /*, data*/);
+};
 
-app.get('/now', 
-    function(req, res, next) {
-        req.time = new Date().toString();
-        next();
-    }, 
-    function(req, res) {
-        res.json({ time: req.time });
-    }
-);
+const findEditThenSave = (personId, done) => {
+  const foodToAdd = "hamburger";
 
-app.route('/name')
-    .get(function(req, res) {
-        const fullName = `${req.query.first} ${req.query.last}`;
-        res.json({ name: fullName });
-    })
-    .post(function(req, res) {
-        const fullName = `${req.body.first} ${req.body.last}`;
-        res.json({ name: fullName });
-    });
+  done(null /*, data*/);
+};
 
-app.get('/json', function(req, res) {
-  let message = "Hello json";
-  if (process.env.MESSAGE_STYLE === 'uppercase') {
-    message = message.toUpperCase();
-  }
-  res.json({ "message": message });
-});
+const findAndUpdate = (personName, done) => {
+  const ageToSet = 20;
 
-const absolutePathToIndex = __dirname + '/views/index.html'; 
-app.get('/', function(req, res) {
-  res.sendFile(absolutePathToIndex);
-});
+  done(null /*, data*/);
+};
 
-module.exports = app;
+const removeById = (personId, done) => {
+  done(null /*, data*/);
+};
+
+const removeManyPeople = (done) => {
+  const nameToRemove = "Mary";
+
+  done(null /*, data*/);
+};
+
+const queryChain = (done) => {
+  const foodToSearch = "burrito";
+
+  done(null /*, data*/);
+};
+
+/** **Well Done !!**
+/* You completed these challenges, let's go celebrate !
+ */
+
+//----- **DO NOT EDIT BELOW THIS LINE** ----------------------------------
+
+exports.PersonModel = Person;
+exports.createAndSavePerson = createAndSavePerson;
+exports.findPeopleByName = findPeopleByName;
+exports.findOneByFood = findOneByFood;
+exports.findPersonById = findPersonById;
+exports.findEditThenSave = findEditThenSave;
+exports.findAndUpdate = findAndUpdate;
+exports.createManyPeople = createManyPeople;
+exports.removeById = removeById;
+exports.removeManyPeople = removeManyPeople;
+exports.queryChain = queryChain;
