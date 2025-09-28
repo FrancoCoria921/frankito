@@ -81,20 +81,34 @@ const findOneByFood = (food, done) => {
 
 // Solución para: Usar model.findById() para buscar por _id
 const findPersonById = (personId, done) => {
-  // Model.findById() es una abreviatura de Model.findOne({ _id: personId })
   Person.findById(personId, (err, personFound) => {
     if (err) {
       return done(err);
     }
-    // personFound es un solo documento que coincide con el ID
     done(null, personFound);
   });
 };
 
+// Solución para: Realizar las actualizaciones clásicas ejecutando "find", "edit" y "save"
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
 
-  done(null /*, data*/);
+  // 1. Buscar a la persona por _id
+  Person.findById(personId, (err, person) => {
+    if (err) return done(err);
+    
+    // Si no se encuentra la persona, terminar.
+    if (!person) return done(new Error('Persona no encontrada'));
+
+    // 2. Editar el documento: añadir "hamburger" a favoriteFoods
+    person.favoriteFoods.push(foodToAdd);
+
+    // 3. Guardar el documento actualizado
+    person.save((err, updatedPerson) => {
+      if (err) return done(err);
+      done(null, updatedPerson);
+    });
+  });
 };
 
 const findAndUpdate = (personName, done) => {
